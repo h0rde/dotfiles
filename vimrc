@@ -33,6 +33,7 @@ Bundle 'jaromero/vim-monokai-refined'
 Bundle 'vim-scripts/twilight'
 Bundle 'romainl/Apprentice'
 Bundle 'whatyouhide/vim-gotham'
+Bundle 'morhetz/gruvbox'
 
 "tabs and spaces
 set tabstop=2 "tab column width
@@ -65,7 +66,9 @@ set backspace=indent,eol,start
 set scrolljump=5
 set scrolloff=3
 set mouse=a
-fixdel
+if !has('nvim')
+  fixdel
+endif
 
 "other
 filetype on "detect file type
@@ -74,6 +77,16 @@ syntax on "syntax aware
 set tags=./tags,tags; "tags file location
 set autoread "reads in changes to file outside vim
 set hidden "buffers can hide
+
+function Py2()
+  let g:syntastic_python_python_exec = '/usr/bin/python'
+endfunction
+
+function Py3()
+  let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+endfunction
+
+call Py3()
 
 " auto remove whitespace on buffer save
 autocmd! BufWrite * mark ' | silent! %s/\s\+$// | norm ''
@@ -126,7 +139,7 @@ let g:syntastic_json_checkers=['jsonlint']
 let g:syntastic_python_checkers=['pylint']
 
 "airline options
-let g:airline_theme='gotham'
+let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1 "Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod=':t' "Show just filename
@@ -135,6 +148,8 @@ let g:airline#extensions#tabline#fnamemod=':t' "Show just filename
 let g:ycm_confirm_extra_conf='~/.vim/.ycm_extra_conf.py'
 let g:ycm_extra_conf_vim_data=['&filetype']
 let g:ycm_confirm_extra_conf=0
+
+autocmd CompleteDone * pclose
 
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
@@ -165,19 +180,28 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+
 " Setup term color support
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
-  set t_Co=256
+  set termguicolors
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 "macvim transparency
 if has("gui_macvim")
-    set transparency=5
+  set transparency=5
 endif
 
-"theme options
 set background=dark
-if !has('gui_running')
-  let g:solarized_termcolors=16
-endif
-colorscheme solarized
+
+colorscheme gruvbox
+
+hi clear SpellBad
+hi SpellBad cterm=underline,bold
+hi clear SpellRare
+hi SpellRare cterm=underline,bold
+hi clear SpellCap
+hi SpellCap cterm=underline,bold
+hi clear SpellLocal
+hi SpellLocal cterm=underline,bold
