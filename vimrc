@@ -2,7 +2,7 @@
 set nocompatible
 
 "Bundle Config
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#rc()
 
 Bundle 'gmarik/vundle'
@@ -186,6 +186,8 @@ if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gno
   set termguicolors
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  " Windows Terminal workaround to scroll background update
+  set t_ut= | set ttyscroll=1
 endif
 
 "macvim transparency
