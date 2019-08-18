@@ -145,7 +145,7 @@ let g:airline#extensions#tabline#enabled=1 "Enable the list of buffers
 let g:airline#extensions#tabline#fnamemod=':t' "Show just filename
 
 "YCM options
-let g:ycm_confirm_extra_conf='~/.vim/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 let g:ycm_extra_conf_vim_data=['&filetype']
 let g:ycm_confirm_extra_conf=0
 
