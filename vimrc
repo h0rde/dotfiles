@@ -26,13 +26,7 @@ Bundle 'Yggdroot/indentLine'
 Bundle 'https://github.com/jeetsukumaran/vim-buffergator'
 "Bundle 'jiangmiao/auto-pairs'
 Bundle 'haya14busa/incsearch.vim'
-
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tomasr/molokai'
-Bundle 'jaromero/vim-monokai-refined'
-Bundle 'vim-scripts/twilight'
-Bundle 'romainl/Apprentice'
-Bundle 'whatyouhide/vim-gotham'
+Bundle 'sheerun/vim-polyglot'
 Bundle 'morhetz/gruvbox'
 
 "tabs and spaces
@@ -180,6 +174,27 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+" WSL yank support
+function! IsWSL()
+  let uname = substitute(system('uname'),'\n','','')
+  if uname == 'Linux'
+    let lines = readfile("/proc/version")
+    if lines[0] =~ "Microsoft"
+      return 1
+    endif
+  endif
+endfunction
+
+
+if(IsWSL() == 1)
+  let s:clip = '/mnt/c/Windows/System32/clip.exe'  " change this path according to your mount point
+  if executable(s:clip)
+    augroup WSLYank
+      autocmd!
+      autocmd TextYankPost * if v:event.operator ==# 'y' | call system(s:clip, @0) | endif
+    augroup END
+  endif
+endif
 
 " Setup term color support
 if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
