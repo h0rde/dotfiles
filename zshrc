@@ -77,11 +77,7 @@ case "$OSTYPE" in
     export LS_OPTIONS='--color=auto'
     export CLICOLOR='Yes'
     export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
-
-    alias ll='ls -lah'
-
-    PATH="/Library/Frameworks/Python.framework/Versions/3.7/bin:${PATH}"
-    export PATH
+    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
   ;;
   linux*)
     eval `dircolors ~/.gruvbox.dircolors`
